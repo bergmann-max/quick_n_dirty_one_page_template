@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<!--
+SPDX-License-Identifier: Unlicense
+-->
+<html lang="de" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Language" content="de" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Quick & Dirty One Page Template</title>
+
+    <meta name="description" content="Quick & Dirty One Page Template" />
+    <meta property="og:title" content="Quick & Dirty One Page Template" />
+    <meta
+      property="og:description"
+      content="Minimal, ready-to-use HTML template for  with a table of contents."
+    />
+
+    <link rel="icon" type="image/png" href="favicon.png" sizes="32x32" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="scroll-toc-handler.js" defer></script>
+
+    <script src="tailwindcss3.4.16.css"></script>
+
+    <script src="alpinejs3.14.9min.js" defer></script>
+  </head>
+
+  <body
+    x-data="{ ...scrollAndTocHandler(), imgModal: { open: false, src: '' } }"
+    x-init="initScroll()"
+    class="bg-gray-50 text-gray-800 font-sans leading-relaxed tracking-wide p-2 sm:p-8"
+  >
+    <main
+      class="w-full max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-2 sm:p-6 pb-24 space-y-8"
+    >
+      <header>
+        <h1
+          class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-center text-indigo-700 tracking-tight leading-tight mb-6 sm:mb-10 border-b-2 border-indigo-100 pb-2 sm:pb-4 break-words"
+        >
+          📝 Quick & Dirty One Page Template
+        </h1>
+      </header>
+
+      <!-- Collapsible table of contents -->
+      <nav class="sticky top-2 z-30 px-2 py-1.5 w-full">
+        <div
+          x-show="tocOpen"
+          @click="tocOpen = false"
+          class="fixed inset-0 z-10"
+        ></div>
+        <div
+          :class="[tocOpen ? 'rounded-t-xl' : 'rounded-xl hover:bg-indigo-200', 'relative w-full shadow-md overflow-visible transition-colors bg-indigo-100']"
+        >
+          <!-- Toggle Button -->
+          <button
+            @click="tocOpen = !tocOpen"
+            :aria-expanded="tocOpen.toString()"
+            aria-controls="toc-list"
+            aria-label="Inhaltsverzeichnis ein- oder ausklappen"
+            class="w-full flex items-center justify-between px-3 py-2 text-indigo-700 text-sm sm:text-base font-semibold transition z-30 relative"
+          >
+            <span class="flex items-center gap-2">📋 Table of contents</span>
+            <span aria-hidden="true" x-text="tocOpen ? '–' : '+'"></span>
+          </button>
+
+          <ul
+            id="toc-list"
+            x-show="tocOpen"
+            x-transition
+            class="absolute left-0 right-0 rounded-b-xl divide-y divide-indigo-100 text-sm sm:text-base bg-white shadow-lg z-20 max-h-[50vh] overflow-y-auto"
+            style="top: 100%; margin-top: -1px"
+          >
+            <template
+              x-for="item in [
+              { id: 'lorem', emoji: '🆔', text: 'Lorem' },
+              { id: 'ipsum', emoji: '🔧', text: 'Ipsum' },
+              { id: 'facilisis', emoji: '🚀', text: 'Facilisis' },
+                      ]"
+              :key="item.id"
+            >
+              <li>
+                <a
+                  :href="'#' + item.id"
+                  @click="tocOpen = false"
+                  class="group block w-full px-3 py-2 hover:bg-indigo-50 text-indigo-700 hover:text-indigo-900 transition flex items-center gap-2"
+                >
+                  <span
+                    class="inline-block transform transition-transform duration-200 ease-in-out group-hover:scale-125"
+                    x-text="item.emoji"
+                    aria-hidden="true"
+                  ></span>
+                  <span x-text="item.text"></span>
+                </a>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Individual content sections follow -->
+      <section id="lorem" aria-labelledby="heading-lorem">
+        <h2
+          id="heading-lorem"
+          class="group section-heading text-2xl font-bold mt-10"
+        >
+          <span
+            class="inline-block transform transition-transform duration-200 ease-in-out group-hover:scale-125"
+            >🆔</span
+          >
+          Lorem
+        </h2>
+        <p>
+          Nam liber tempor cum soluta nobis eleifend option congue nihil
+          imperdiet doming id quod mazim placerat facer possim assum. Lorem
+          ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+          nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+          Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+          suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem
+          vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+          consequat, vel illum dolore eu feugiat nulla facilisis.
+        </p>
+
+        <pre
+          class="bg-gray-100 p-4 rounded-lg overflow-x-auto my-4"
+        ><code class="language-python">
+x = 1
+if x == 1:
+    # indented four spaces
+    print("x is 1.")
+        </code></pre>
+
+        <img
+          src="tux.webp"
+          alt="Tux Logo"
+          class="max-w-[200px] cursor-pointer hover:opacity-90 hover:scale-105 transition-all duration-200 rounded-lg shadow-md mx-auto my-4"
+          @click="imgModal.src = 'tux.webp'; imgModal.open = true"
+        />
+        <p class="text-center text-xs text-gray-500">
+          Tux by
+          <a
+            href="https://commons.wikimedia.org/wiki/File:TuxFlat.svg"
+            class="text-gray-500 hover:text-gray-700"
+          >
+            Larry Ewing, Simon Budig, Anja Gerwinski </a
+          >;
+          <a
+            href="https://creativecommons.org/licenses/by-sa/3.0/"
+            class="text-gray-500 hover:text-gray-700"
+          >
+            CC BY-SA 3.0
+          </a>
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+          pulvinar, nisl sed vehicula fringilla, nulla
+          <span class="font-bold">velit placerat</span> nibh, eget convallis
+          sapien orci et sapien. Fusce ut risus ac erat feugiat ultrices at vel
+          magna.
+        </p>
+      </section>
+      <div class="border-t border-gray-200 mt-10"></div>
+
+      <section id="ipsum" aria-labelledby="heading-ipsum">
+        <h2
+          id="heading-ipsum"
+          class="group section-heading text-2xl font-bold mt-10"
+        >
+          <span
+            class="inline-block transform transition-transform duration-200 ease-in-out group-hover:scale-125"
+            >🔧</span
+          >
+          Ipsum
+        </h2>
+        <p>
+          Morbi varius, nisl vel sodales egestas, lorem turpis feugiat felis,
+          nec ultricies nunc libero nec ligula. Vestibulum sed varius massa. In
+          ac lorem eget sem condimentum tincidunt. Etiam ultricies, orci vitae
+          bibendum dignissim, ipsum lectus facilisis ligula, ac ultricies magna
+          lorem eget urna.
+        </p>
+        <span class="font-bold">Eget:</span>
+        <ul class="list-disc ml-5">
+          <li>Lorem ipsum dolor sit amet</li>
+          <li>Consectetur adipiscing elit</li>
+          <li>Sed do eiusmod tempor incididunt</li>
+        </ul>
+        <span class="font-bold">Option:</span>
+        <ul class="list-disc ml-5">
+          <li>Ut wisi enim ad minim veniam</li>
+          <li>Stet clita ea et gubergren</li>
+          <li>At vero eos et accusam</li>
+        </ul>
+        <p>
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum. Quis autem vel eum iure
+          reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+          consequatur. Neque porro quisquam est, qui dolorem ipsum quia dolor
+          sit amet, consectetur, adipisci velit. Sed ut perspiciatis unde omnis
+          iste natus error sit voluptatem accusantium doloremque laudantium.
+        </p>
+      </section>
+      <div class="border-t border-gray-200 mt-10"></div>
+
+      <section id="facilisis" aria-labelledby="heading-facilisis">
+        <h2
+          id="heading-facilisis"
+          class="group section-heading text-2xl font-bold mt-10"
+        >
+          <span
+            class="inline-block transform transition-transform duration-200 ease-in-out group-hover:scale-125"
+            >🚀</span
+          >
+          Facilisis
+        </h2>
+        <h3 class="text-xl font-semibold mt-4">Turpis</h3>
+        <p>
+          Donec feugiat, eros at aliquet finibus, mi erat luctus arcu, sit amet
+          venenatis mauris risus non ipsum. Phasellus posuere est sit amet nulla
+          commodo tristique. Integer vel mi quis lorem faucibus mattis non id
+          turpis.
+        </p>
+        <h3 class="text-xl font-semibold mt-4">Adipiscing</h3>
+        <p>
+          Curabitur dignissim, augue in aliquam gravida, neque erat luctus
+          sapien, at tristique elit neque a nulla. Sed et lacus a eros hendrerit
+          consequat. Praesent vel felis sed nisl
+          <a
+            href="https://example.com/foo"
+            class="text-indigo-600 hover:text-indigo-800 underline transition-colors duration-200 ease-in-out"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            example.com </a
+          >facilisis vulputate eget a lectus.
+        </p>
+
+        <h3 class="text-xl font-semibold mt-4">Table</h3>
+        <div
+          x-data="{ 
+          items: [
+            { name: 'Alpha', value: 42, status: 'true' },
+            { name: 'Beta', value: 27, status: 'false' },
+            { name: 'Gamma', value: 35, status: 'true' },
+            { name: 'Delta', value: 19, status: 'false' }
+          ],
+          sortField: 'name',
+          sortAsc: true,
+          sortBy(field) {
+            this.sortAsc = this.sortField === field ? !this.sortAsc : true;
+            this.sortField = field;
+            this.items.sort((a, b) => {
+              let modifier = this.sortAsc ? 1 : -1;
+              if (a[field] < b[field]) return -1 * modifier;
+              if (a[field] > b[field]) return 1 * modifier;
+              return 0;
+            });
+          }
+        }"
+          class="mt-4"
+        >
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  @click="sortBy('name')"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                >
+                  Name
+                  <span
+                    x-show="sortField === 'name'"
+                    x-text="sortAsc ? '↑' : '↓'"
+                  ></span>
+                </th>
+                <th
+                  @click="sortBy('value')"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                >
+                  Value
+                  <span
+                    x-show="sortField === 'value'"
+                    x-text="sortAsc ? '↑' : '↓'"
+                  ></span>
+                </th>
+                <th
+                  @click="sortBy('status')"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                >
+                  Status
+                  <span
+                    x-show="sortField === 'status'"
+                    x-text="sortAsc ? '↑' : '↓'"
+                  ></span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <template x-for="item in items" :key="item.name">
+                <tr class="hover:bg-gray-50">
+                  <td
+                    class="px-6 py-4 whitespace-nowrap"
+                    x-text="item.name"
+                  ></td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap"
+                    x-text="item.value"
+                  ></td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap"
+                    x-text="item.status"
+                  ></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer
+        class="text-center text-xs sm:text-sm text-gray-400 mt-8 sm:mt-12 border-t pt-4 sm:pt-6"
+      >
+        Quick & Dirty One Page Template
+        <a href="https://unlicense.org">📝 The Unlicense</a>
+      </footer>
+    </main>
+
+    <!-- Scroll-to-top Button -->
+    <button
+      @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+      x-show="showScrollTop"
+      class="fixed bottom-4 right-4 bg-indigo-100 text-indigo-700 px-4 py-2 text-sm rounded-md shadow-md hover:bg-indigo-200 transition z-50"
+      x-transition
+      aria-label="Nach oben scrollen"
+    >
+      ↑ Start
+    </button>
+
+    <!-- Lightbox modal for image viewing -->
+    <div
+      x-show="imgModal.open"
+      @keydown.escape.window="imgModal.open = false"
+      @click.self="imgModal.open = false"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+      x-transition
+      style="display: none"
+    >
+      <div class="relative">
+        <button
+          @click="imgModal.open = false"
+          class="absolute top-2 right-2 text-white text-3xl font-bold transition-transform duration-200 ease-in-out transform hover:scale-125 drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)]"
+          aria-label="Schließen"
+        >
+          &times;
+        </button>
+        <img
+          :src="imgModal.src"
+          alt="Vollbildansicht Katze"
+          class="max-w-[90vw] max-h-[90vh] rounded-lg shadow-xl"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </body>
+</html>

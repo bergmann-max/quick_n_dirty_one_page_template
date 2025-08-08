@@ -1,0 +1,33 @@
+/* 
+  Custom scrollbar styling for the table of contents (TOC) 
+  Applies in collapsed/expanded TOC menu
+*/
+#toc-list {
+  scrollbar-width: thin; /* Use thin scrollbar in Firefox */
+  scrollbar-color: #a5b4fc #f1f5f9; /* Thumb and track color for Firefox */
+}
+
+/* 
+  Custom scrollbar styling for Webkit browsers (Chrome, Edge, Safari) 
+*/
+#toc-list::-webkit-scrollbar {
+  width: 2px; /* Very thin scrollbar */
+}
+
+#toc-list::-webkit-scrollbar-thumb {
+  background: rgba(165, 180, 252, 0.5); /* Indigo semi-transparent thumb */
+  border-radius: 1px; /* Rounded edges for the thumb */
+}
+
+#toc-list::-webkit-scrollbar-track {
+  background: #f1f5f9; /* Light gray track, fits the design */
+  border-radius: 1px;
+}
+
+/*
+  Ensure section headings are not overlapped by sticky/fixed elements 
+  This sets the top scroll margin for all anchored sections.
+*/
+section[id] {
+  scroll-margin-top: 96px;
+}
